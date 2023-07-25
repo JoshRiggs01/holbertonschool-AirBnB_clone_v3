@@ -89,19 +89,15 @@ class TestBaseModel(unittest.TestCase):
         """Test that two BaseModel instances have different datetime objects
         and that upon creation have identical updated_at and created_at
         value."""
-        with InstanceTimingContextManager() as ctx1:
-            inst1 = BaseModel()
-
-        with InstanceTimingContextManager() as ctx2:
-            inst2 = BaseModel()
-
-        # Assert that the instance creation durations are within an acceptable range.
-        # This can be adjusted based on your specific environment and performance.
-        acceptable_duration = 0.1  # 0.1 seconds, for example.
-        self.assertLess(ctx1.duration.total_seconds(), acceptable_duration)
-        self.assertLess(ctx2.duration.total_seconds(), acceptable_duration)
-
-        # Now, perform the original assertions on the created_at and updated_at attributes.
+        tic = datetime.now()
+        inst1 = BaseModel()
+        toc = datetime.now()
+        self.assertTrue(tic <= inst1.created_at <= toc)
+        time.sleep(0.1)
+        tic = datetime.now()
+        inst2 = BaseModel()
+        toc = datetime.now()
+        self.assertTrue(tic <= inst2.created_at <= toc)
         self.assertEqual(inst1.created_at, inst1.updated_at)
         self.assertEqual(inst2.created_at, inst2.updated_at)
         self.assertNotEqual(inst1.created_at, inst2.created_at)
