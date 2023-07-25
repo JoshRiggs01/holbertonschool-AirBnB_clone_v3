@@ -64,6 +64,13 @@ class TestBaseModel(unittest.TestCase):
         self.assertIs(type(inst), BaseModel)
         inst.name = "Holberton"
         inst.number = 89
+
+        '''set created at attr before calling save()'''
+        inst.created_at = datetime.utcnow()
+
+        '''save instance after creating 'created_at' .'''
+        inst.save()
+
         attrs_types = {
             "id": str,
             "created_at": datetime,
