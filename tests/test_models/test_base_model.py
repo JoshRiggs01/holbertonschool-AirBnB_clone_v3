@@ -93,7 +93,8 @@ class TestBaseModel(unittest.TestCase):
         inst1 = BaseModel()
         toc = datetime.now()
         self.assertTrue(tic <= inst1.created_at <= toc)
-        time.sleep(0.1)
+        '''made 1 second time delay'''
+        time.sleep(1)
         tic = datetime.now()
         inst2 = BaseModel()
         toc = datetime.now()
