@@ -65,7 +65,7 @@ class TestBaseModel(unittest.TestCase):
         inst.name = "Holberton"
         inst.number = 89
 
-        '''set created at attr before calling save()'''
+        '''set created_at attr before calling save()'''
         inst.created_at = datetime.utcnow()
 
         '''save instance after creating 'created_at' .'''
@@ -93,12 +93,19 @@ class TestBaseModel(unittest.TestCase):
         inst1 = BaseModel()
         toc = datetime.now()
         self.assertTrue(tic <= inst1.created_at <= toc)
+
         '''made 1 second time delay'''
         time.sleep(1)
+
         tic = datetime.now()
         inst2 = BaseModel()
         toc = datetime.now()
         self.assertTrue(tic <= inst2.created_at <= toc)
+
+        '''manually set updated_at attr for each instance'''
+        inst1.updated_at = datetime.now()
+        inst2.updated_at = datetime.now()
+
         self.assertEqual(inst1.created_at, inst1.updated_at)
         self.assertEqual(inst2.created_at, inst2.updated_at)
         self.assertNotEqual(inst1.created_at, inst2.created_at)
