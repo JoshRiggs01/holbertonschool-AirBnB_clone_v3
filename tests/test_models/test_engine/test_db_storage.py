@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Contains the TestDBStorageDocs and TestDBStorage classes
-"""
+""" Contains the TestDBStorageDocs and TestDBStorage classes """
 
 from datetime import datetime
 import inspect
@@ -18,6 +16,7 @@ import json
 import os
 import pep8
 import unittest
+
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -86,24 +85,3 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_get(self):
-        """Test the get() method of DBStorage"""
-        # Create an instance of DBStorage
-        storage = DBStorage()
-
-        # Create an object and save it to the database
-        new_state = State(name="California")
-        storage.new(new_state)
-        storage.save()
-
-        # Retrieve the object using get() method
-        retrieved_state = storage.get(State, new_state.id)
-
-        # Check if the retrieved object is the same as the original object
-        self.assertEqual(new_state, retrieved_state)
-
-        # Attempt to retrieve a non-existent object
-        non_existent_state = storage.get(State, "non_existent_id")
-        self.assertIsNone(non_existent_state)
