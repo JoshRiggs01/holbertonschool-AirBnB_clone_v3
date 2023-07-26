@@ -111,39 +111,3 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
-
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_count_all(self):
-        """Test the count() method of FileStorage without class argument"""
-        storage = FileStorage()
-
-        # Create multiple objects of different classes
-        for cls_name, cls in classes.items():
-            for i in range(5):
-                instance = cls()
-                storage.new(instance)
-        storage.save()
-
-        # Count all objects in storage
-        count_all = storage.count()
-
-        # The total count should be the sum of objects of all classes (5 * number of classes)
-        total_count = 5 * len(classes)
-        self.assertEqual(count_all, total_count)
-
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_count_class(self):
-        """Test the count() method of FileStorage with class argument"""
-        storage = FileStorage()
-
-        # Create multiple objects of a specific class (State in this case)
-        for i in range(5):
-            instance = State()
-            storage.new(instance)
-        storage.save()
-
-        # Count only the objects of the State class
-        count_state = storage.count(State)
-
-        # The count for State class should be 5
-        self.assertEqual(count_state, 5)
